@@ -1,11 +1,22 @@
 FROM debian:wheezy
-RUN dpkg --add-architecture i386 && apt-get update \
-&&  apt-get -y upgrade && apt-get -y dist-upgrade \
-&&  apt-get -y install sudo wget ia32-libs lib32asound2 \
-&&  wget http://download.teamviewer.com/download/version_10x/teamviewer_amd64.deb -O /tmp/teamviewer.deb \
-&&  (dpkg -i /tmp/teamviewer.deb || true) \
+MAINTAINER Konrad Lother <k@hiddenbox.org>
+
+RUN dpkg --add-architecture i386 
+RUN apt-get update 
+RUN apt-get -y upgrade && apt-get -y dist-upgrade 
+RUN apt-get -y install \
+	sudo \
+	wget \
+	ia32-libs \
+	lib32asound2 
+
+RUN wget http://download.teamviewer.com/download/version_10x/teamviewer_amd64.deb -O /tmp/teamviewer.deb 
+
+RUN (dpkg -i /tmp/teamviewer.deb || true)  \
 &&  apt-get -y -f install \
 &&  dpkg -i /tmp/teamviewer.deb 
+
+RUN apt-get clean
 
 RUN echo "teamviewer  ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/teamviewer \
 &&  chmod 0440 /etc/sudoers.d/teamviewer
