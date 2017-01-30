@@ -17,7 +17,7 @@ Run with
 $ docker run --privileged -t -i --name teamviewer10 -h teamviewer10 -v /tmp/.X11-unix:/tmp/.X11-unix lotherk/teamviewer10
 ```
 
-## from then one
+## from then on
 ```
 $ docker start teamviewer10
 ```
