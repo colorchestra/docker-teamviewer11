@@ -9,7 +9,7 @@ RUN useradd -m -d /home/teamviewer -s /bin/bash teamviewer
 RUN dpkg --add-architecture i386 
 RUN apt-get update 
 RUN apt-get -y upgrade && apt-get -y dist-upgrade 
-RUN apt-get install wget ca-certificates
+RUN apt-get install -y wget ca-certificates
 RUN wget http://download.teamviewer.com/download/version_10x/teamviewer_linux.tar.gz -O /tmp/teamviewer.tar.gz
 
 RUN apt-get -y install \
@@ -47,7 +47,10 @@ RUN apt-get autoremove --purge -y
 RUN apt-get clean
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
+RUN echo "teamviewer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/teamviewer \
+&&  chmod 0440 /etc/sudoers.d/teamviewer
+
 USER teamviewer
 ENV USER teamviewer
 
-CMD /teamviewer/teamviewer 
+CMD sudo /etc/init.d/teamviewerd start && /usr/bin/teamviewer
