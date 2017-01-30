@@ -33,6 +33,11 @@ RUN apt-get -y install \
 	libxrandr2:i386 \
 	libxrender1:i386 \
 	libxtst6:i386 \
+	libjpeg62:i386 \
+	libasound2 \
+	libsm6 \
+	libxfixes3 \
+	libxinerama1:i386 \
 	x11-common
 
 
