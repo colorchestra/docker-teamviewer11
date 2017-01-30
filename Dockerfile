@@ -42,12 +42,10 @@ RUN apt-get -y install \
 
 
 RUN tar xzf tmp/teamviewer.tar.gz
-RUN /teamviewer/tv-setup install force
-RUN chown teamviewer: /var/lock/teamviewerd
-RUN chown teamviewer: /opt/teamviewer
-RUN mkdir -p /home/teamviewer/.config/teamviewer10 && ln -sf /home/teamviewer/.config/teamviewer10 /teamviewer/profile
-RUN chown -R teamviewer: /teamviewer
-RUN /etc/init.d/teamviewerd start && /usr/bin/teamviewer license accept
+#RUN /teamviewer/tv-setup install force
+#RUN mkdir -p /home/teamviewer/.config/teamviewer10 && ln -sf /home/teamviewer/.config/teamviewer10 /teamviewer/profile
+RUN chown -R teamviewer: /teamviewer /home/teamviewer
+#RUN /etc/init.d/teamviewerd start && /usr/bin/teamviewer license accept
 
 RUN apt-get autoremove --purge -y
 RUN apt-get clean
@@ -57,8 +55,10 @@ RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 RUN echo "teamviewer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/teamviewer \
 &&  chmod 0440 /etc/sudoers.d/teamviewer
 
+ADD run.sh /run.sh
+
 USER teamviewer
 ENV USER teamviewer
 
 #CMD sudo /etc/init.d/teamviewerd start && /usr/bin/teamviewer
-CMD /teamviewer/teamviewer 
+CMD /run.sh

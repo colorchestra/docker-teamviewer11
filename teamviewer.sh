@@ -8,7 +8,7 @@ if [ ! -d "$TV_PROFILE" ]; then
 fi
 
 #	-v ~/.teamviewer_profile:/teamviewer/profile \
-docker run --privileged -t -i \
+echo docker run --privileged -t -i \
 	-h $HOSTNAME \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v $TV_PROFILE:/home/teamviewer/.config/teamviewer10 \
