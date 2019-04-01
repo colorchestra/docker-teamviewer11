@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM i386/debian:wheezy
 MAINTAINER Konrad Lother <k@hiddenbox.org>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -6,11 +6,13 @@ ENV DISPLAY :0.0
 
 RUN useradd -m -d /home/teamviewer -s /bin/bash teamviewer
 
-RUN dpkg --add-architecture i386 
+# RUN dpkg --add-architecture i386 
+RUN rm /etc/apt/sources.list
+ADD sources.list /etc/apt/sources.list
 RUN apt-get update 
 RUN apt-get -y upgrade && apt-get -y dist-upgrade 
 RUN apt-get install -y wget ca-certificates
-RUN wget http://download.teamviewer.com/download/version_10x/teamviewer_linux.tar.gz -O /tmp/teamviewer.tar.gz
+RUN wget https://download.teamviewer.com/download/version_11x/teamviewer_i386.tar.xz -O /tmp/teamviewer.tar.xz
 
 RUN apt-get -y install \
 	sudo \
@@ -34,6 +36,7 @@ RUN apt-get -y install \
 	libxrender1:i386 \
 	libxtst6:i386 \
 	libjpeg62:i386 \
+    libdbus-1-3:i386 \
 	libasound2 \
 	libsm6 \
 	libxfixes3 \
@@ -41,7 +44,7 @@ RUN apt-get -y install \
 	x11-common
 
 
-RUN tar xzf tmp/teamviewer.tar.gz
+RUN tar xf tmp/teamviewer.tar.xz
 RUN chown -R teamviewer: /teamviewer /home/teamviewer
 
 RUN apt-get autoremove --purge -y
