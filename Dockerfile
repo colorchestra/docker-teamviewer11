@@ -1,18 +1,16 @@
 FROM i386/debian:wheezy
-MAINTAINER Konrad Lother <k@hiddenbox.org>
+MAINTAINER morph <github@morph.sh>
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DISPLAY :0.0
 
 RUN useradd -m -d /home/teamviewer -s /bin/bash teamviewer
 
-# RUN dpkg --add-architecture i386 
-RUN rm /etc/apt/sources.list
+# RUN rm /etc/apt/sources.list # needed?
 ADD sources.list /etc/apt/sources.list
 RUN apt-get update 
 RUN apt-get -y upgrade && apt-get -y dist-upgrade 
 RUN apt-get install -y wget ca-certificates
-RUN wget https://download.teamviewer.com/download/version_11x/teamviewer_i386.tar.xz -O /tmp/teamviewer.tar.xz
 
 RUN apt-get -y install \
 	sudo \
@@ -43,7 +41,7 @@ RUN apt-get -y install \
 	libxinerama1:i386 \
 	x11-common
 
-
+RUN wget https://download.teamviewer.com/download/version_11x/teamviewer_i386.tar.xz -O /tmp/teamviewer.tar.xz
 RUN tar xf tmp/teamviewer.tar.xz
 RUN chown -R teamviewer: /teamviewer /home/teamviewer
 
